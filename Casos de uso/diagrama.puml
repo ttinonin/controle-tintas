@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+actor "Operador" as Operador
+actor "Sistema PCP" as PCP
+actor "Sistema Comercial" as Comercial
+actor "Time Caminhão" as Caminhao
+
+rectangle Sistema {
+  (Iniciar produção de tinta)
+  (Monitorar status da produção)
+  (Controlar bombas)
+  (Controlar válvulas)
+  (Monitorar nível dos tanques)
+  (Monitorar pressão nas linhas)
+  (Liberar tanque para caminhão)
+  (Reverter estado de válvula)
+  (Gerar relatório de produção)
+  (Receber ordens de produção)
+  (Receber especificações de cor e volume)
+}
+
+Operador -- (Iniciar produção de tinta)
+Operador -- (Monitorar status da produção)
+Operador -- (Controlar bombas)
+Operador -- (Controlar válvulas)
+Operador -- (Monitorar nível dos tanques)
+Operador -- (Monitorar pressão nas linhas)
+Operador -- (Liberar tanque para caminhão)
+Operador -- (Reverter estado de válvula)
+Operador -- (Gerar relatório de produção)
+Caminhao -- (Liberar tanque para caminhão)
+
+(Monitorar status da produção) -[hidden]- (Receber ordens de produção)
+(Reverter estado de válvula) -[hidden]- (Receber especificações de cor e volume)
+
+PCP -up- (Receber ordens de produção)
+Comercial -up- (Receber especificações de cor e volume)
+@enduml
