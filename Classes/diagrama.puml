@@ -1,0 +1,86 @@
+@startuml
+
+skinparam groupInheritance 2
+allowmixing
+
+boundary Interface_Tintas
+control Controlador_Tintas
+
+abstract class Sensor {
+  -id: String
+  +lerValor(): float
+}
+
+class SensorNivel {
+  +nivelAtual: float
+}
+
+class SensorPressao {
+  +pressaoAtual: float
+}
+
+
+class CentralDeMonitoramento {
+  +iniciarProducao()
+  +monitorar()
+  +reverterValvula(id: String)
+}
+
+class Relatorio {
+    -id: String
+    -data: Date
+    +gerar()
+    +buscar()
+}
+
+class Bomba {
+  -id: String
+  -potencia: float
+  +ajustarPotencia(p: float)
+}
+
+class Valvula {
+  -id: String
+  -status: String
+  +abrir()
+  +fechar()
+}
+
+class Tanque {
+  -id: String
+  -capacidade: float
+  -nivelAtual: float
+}
+
+class Misturador {
+  -id: String
+  +misturar()
+}
+
+class OrdemProducao {
+  -tipoTinta: String
+  -volume: float
+}
+
+CentralDeMonitoramento -r- "0..*" Relatorio : gera
+
+CentralDeMonitoramento -l- "1..*" Misturador : possui
+Misturador -d-> "1..*" Tanque : armazena
+
+CentralDeMonitoramento -l-> Valvula : monitora
+Tanque -d- SensorNivel
+
+SensorNivel -[hidden]l- SensorPressao
+
+Sensor <|-u- SensorNivel
+Sensor <|-u- SensorPressao
+
+CentralDeMonitoramento --> Bomba
+CentralDeMonitoramento --> OrdemProducao
+
+Valvula -- SensorPressao
+
+Controlador_Tintas -l- Interface_Tintas
+Controlador_Tintas -- CentralDeMonitoramento
+
+@enduml
