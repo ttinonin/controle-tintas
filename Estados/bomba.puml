@@ -1,0 +1,15 @@
+@startuml
+[*] --> Desligada
+
+Desligada --> Ativando : ajustarPotencia(p > 0)
+Ativando --> Ligada : motorEstabilizado()
+
+Ligada --> AjustandoPotencia : ajustarPotencia(p ≠ atual)
+AjustandoPotencia --> Ligada : confirmacao()
+
+Ligada --> Desligando : ajustarPotencia(p == 0)
+Desligando --> Desligada : motorParado()
+
+Ligada --> [*] : falha()
+AjustandoPotencia --> [*] : erroAjuste()
+@enduml

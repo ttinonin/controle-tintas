@@ -1,0 +1,11 @@
+@startuml
+[*] --> Enchendo : iniciarArmazenamento()
+
+Enchendo --> Cheio : nivel == capacidadeMax
+Cheio --> Esvaziando : liberarParaCaminhao()
+Esvaziando --> [*] : nivel == 0
+
+Enchendo --> [*] : erro/abortado
+Esvaziando --> Cheio : operação cancelada
+
+@enduml

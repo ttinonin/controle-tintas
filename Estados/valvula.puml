@@ -1,0 +1,15 @@
+@startuml
+[*] --> Fechada
+
+Fechada --> Aberta : abrir()
+Aberta --> Fechada : fechar()
+
+Fechada --> EmReversao : forcarAbertura()
+Aberta --> EmReversao : forcarFechamento()
+
+EmReversao --> Aberta : reversaoConcluida(aberta)
+EmReversao --> Fechada : reversaoConcluida(fechada)
+
+EmReversao --> [*] : falhaSeguranca()
+
+@enduml
