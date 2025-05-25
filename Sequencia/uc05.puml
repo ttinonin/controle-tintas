@@ -1,0 +1,22 @@
+@startuml
+actor Operador
+boundary Interface_Tintas
+control Controlador_Tintas
+entity CentralDeMonitoramento
+entity Relatorio
+
+Operador -> Interface_Tintas : acessarModuloRelatorios()
+Operador -> Interface_Tintas : solicitarRelatorio(dataInicio, dataFim)
+
+Interface_Tintas -> Controlador_Tintas : gerarRelatorio(dataInicio, dataFim)
+Controlador_Tintas -> CentralDeMonitoramento : gerarRelatorio(dataInicio, dataFim)
+
+CentralDeMonitoramento -> Relatorio : consultarDados(dataInicio, dataFim)
+Relatorio --> CentralDeMonitoramento : dadosProduzidos
+
+CentralDeMonitoramento -> Relatorio : gerar()
+Relatorio --> CentralDeMonitoramento : relatorioPronto
+
+CentralDeMonitoramento -> Interface_Tintas : exibirRelatorio(relatorioPronto)
+
+@enduml

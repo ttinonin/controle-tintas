@@ -1,0 +1,24 @@
+@startuml
+actor Operador
+boundary Interface_Tintas
+control Controlador_Tintas
+entity CentralDeMonitoramento
+entity Valvula
+entity SensorPressao
+
+Operador -> Interface_Tintas : acessarPainelValvulas()
+Operador -> Interface_Tintas : selecionarValvula(valvulaId)
+Operador -> Interface_Tintas : escolherAcao(abrir/fechar)
+
+Interface_Tintas -> Controlador_Tintas : controlarValvula(valvulaId, acao)
+Controlador_Tintas -> CentralDeMonitoramento : controlarValvula(valvulaId, acao)
+
+CentralDeMonitoramento -> Valvula : executarAcao(abrir/fechar)
+Valvula --> CentralDeMonitoramento : statusAtualizado
+
+CentralDeMonitoramento -> SensorPressao : lerValor()
+SensorPressao --> CentralDeMonitoramento : valorPressao
+
+CentralDeMonitoramento -> Interface_Tintas : exibirStatus(valvulaId, statusAtualizado)
+
+@enduml

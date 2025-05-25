@@ -1,0 +1,28 @@
+@startuml
+actor Operador
+boundary Interface_Tintas
+control Controlador_Tintas
+entity CentralDeMonitoramento
+entity Valvula
+entity SensorPressao
+
+Operador -> Interface_Tintas : acessarPainelEmergencia()
+Operador -> Interface_Tintas : selecionarValvula(valvulaId)
+Operador -> Interface_Tintas : confirmarReversao()
+
+Interface_Tintas -> Controlador_Tintas : reverterValvula(valvulaId)
+Controlador_Tintas -> CentralDeMonitoramento : reverterValvula(valvulaId)
+
+CentralDeMonitoramento -> Valvula : obterEstadoAtual()
+Valvula --> CentralDeMonitoramento : estado
+
+CentralDeMonitoramento -> Valvula : inverterEstado()
+Valvula --> CentralDeMonitoramento : novoEstado
+
+CentralDeMonitoramento -> SensorPressao : lerValor()
+SensorPressao --> CentralDeMonitoramento : valorPressao
+
+CentralDeMonitoramento -> Interface_Tintas : atualizarStatus(valvulaId, novoEstado)
+CentralDeMonitoramento -> Interface_Tintas : registrarEvento("Reversão manual executada")
+
+@enduml

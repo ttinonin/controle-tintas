@@ -1,0 +1,24 @@
+@startuml
+actor Operador
+boundary Interface_Tintas
+control Controlador_Tintas
+entity CentralDeMonitoramento
+entity Tanque
+entity Valvula
+
+Operador -> Interface_Tintas : solicitarLiberacaoTanque(tanqueId)
+Interface_Tintas -> Controlador_Tintas : liberarTanque(tanqueId)
+Controlador_Tintas -> CentralDeMonitoramento : liberarTanque(tanqueId)
+
+CentralDeMonitoramento -> Tanque : verificarNivel()
+Tanque --> CentralDeMonitoramento : nivelAtual
+
+alt nível suficiente
+  CentralDeMonitoramento -> Valvula : abrir()
+  CentralDeMonitoramento -> Tanque : iniciarEsvaziamento()
+  CentralDeMonitoramento -> Interface_Tintas : atualizarStatus("Tanque em esvaziamento")
+else nível insuficiente
+  CentralDeMonitoramento -> Interface_Tintas : exibirErro("Tanque insuficiente")
+end
+
+@enduml

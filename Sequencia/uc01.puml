@@ -1,0 +1,27 @@
+@startuml
+actor Operador
+boundary Interface_Tintas
+control Controlador_Tintas
+entity CentralDeMonitoramento
+entity OrdemProducao
+entity Bomba
+entity Valvula
+entity Misturador
+entity Tanque
+
+Operador -> Interface_Tintas : solicitarInicioProducao()
+Interface_Tintas -> Controlador_Tintas : iniciarProducao()
+Controlador_Tintas -> CentralDeMonitoramento : iniciarProducao()
+
+CentralDeMonitoramento -> OrdemProducao : buscarOrdem()
+OrdemProducao --> CentralDeMonitoramento : tipoTinta, volume
+
+CentralDeMonitoramento -> Bomba : ajustarPotencia(p)
+CentralDeMonitoramento -> Valvula : abrir()
+CentralDeMonitoramento -> Misturador : misturar()
+
+Misturador -> Tanque : armazenarTinta()
+
+CentralDeMonitoramento -> Interface_Tintas : atualizarStatus("Produção em andamento")
+
+@enduml
