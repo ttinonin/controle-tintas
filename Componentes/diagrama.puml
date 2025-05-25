@@ -1,0 +1,38 @@
+@startuml
+
+package "Interface" {
+    [interface.html] --> [Interface_Tintas]
+}
+
+package "Controllers" {
+    [Interface_Tintas] --> [Controlador_Tintas]
+}
+
+package "Core" {
+    [Controlador_Tintas] --> [CentralDeMonitoramento]
+    [CentralDeMonitoramento] --> [OrdemProducao]
+    [CentralDeMonitoramento] --> [Relatorio]
+    [CentralDeMonitoramento] --> [Valvula]
+    [CentralDeMonitoramento] --> [Bomba]
+    [CentralDeMonitoramento] --> [Misturador]
+    [Misturador] --> [Tanque]
+}
+
+package "Sensores" {
+    [Valvula] --> [SensorPressao]
+    [Tanque] --> [SensorNivel]
+}
+
+package "Sistemas Externos" {
+    [Sistema PCP] --> [OrdemProducao]
+    [Sistema Comercial] --> [OrdemProducao]
+}
+
+database "Banco de Dados" {
+    [OrdemProducao] --> [<<table>> Ordens]
+    [Relatorio] --> [<<table>> Relatorios]
+    [SensorNivel] --> [<<table>> LogsNivel]
+    [SensorPressao] --> [<<table>> LogsPressao]
+}
+
+@enduml
