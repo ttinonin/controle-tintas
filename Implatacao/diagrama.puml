@@ -1,0 +1,68 @@
+@startuml
+node "Estação do Operador" {
+    component "Navegador Web" 
+    component "interface.html"
+}
+
+node "Servidor Web" {
+    component "Interface_Tintas"
+}
+
+node "Servidor de Aplicação" {
+    component "Controlador_Tintas"
+    component "CentralDeMonitoramento"
+    component "Relatorio"
+    component "OrdemProducao"
+}
+
+node "Banco de Dados" {
+    database "PostgreSQL"
+}
+
+node "Dispositivos Físicos" {
+    node "Controlador de Bombas" {
+        component "Bomba"
+    }
+    node "Controlador de Válvulas" {
+        component "Valvula"
+    }
+    node "Misturador Industrial" {
+        component "Misturador"
+    }
+    node "Tanques de Armazenamento" {
+        component "Tanque"
+        component "SensorNivel"
+    }
+    node "Linhas de Pressão" {
+        component "SensorPressao"
+    }
+}
+
+node "Sistema PCP" {
+    component "PCP API"
+}
+
+node "Sistema Comercial" {
+    component "Comercial API"
+}
+
+"interface.html" --> "Interface_Tintas"
+"Interface_Tintas" --> "Controlador_Tintas"
+"Controlador_Tintas" --> "CentralDeMonitoramento"
+"CentralDeMonitoramento" --> "Relatorio"
+"CentralDeMonitoramento" --> "OrdemProducao"
+"CentralDeMonitoramento" --> "Bomba"
+"CentralDeMonitoramento" --> "Valvula"
+"CentralDeMonitoramento" --> "Misturador"
+"Misturador" --> "Tanque"
+"Tanque" --> "SensorNivel"
+"Valvula" --> "SensorPressao"
+
+"OrdemProducao" --> "PostgreSQL"
+"Relatorio" --> "PostgreSQL"
+"SensorNivel" --> "PostgreSQL"
+"SensorPressao" --> "PostgreSQL"
+
+"OrdemProducao" --> "PCP API"
+"OrdemProducao" --> "Comercial API"
+@enduml
